@@ -34,8 +34,7 @@ export const Filter = () => {
       setFilter(selected);
       handleDropdown();
       const langCode = languageMap[selected];
-      const page = page || 1;
-      dispatch(fetchNews({ langCode, page: page }));
+      dispatch(fetchNews({ langCode, page: 1 }));
     }
   };
   return (
@@ -47,6 +46,7 @@ export const Filter = () => {
             className="filter-input"
             value={filter}
             readOnly
+            onClick={handleDropdown}
             placeholder="Filter by Language"
           />
           <FaAngleDown

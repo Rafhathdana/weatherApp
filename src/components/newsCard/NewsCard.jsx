@@ -3,15 +3,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { ButtonScroll } from "../buttonScroll/ButtonScroll";
 import { warnings } from "../../cusHook/warning";
 import { fetchNews } from "../../redux/Slice/news";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./newsCard.css";
 
 export const NewsCard = () => {
   let page = 1;
-  let dispatch = useDispatch();
+
+  const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [loading, setLoading] = useState(true);
-  warnings("Are you sure you want to leave this page?");
 
   // Custom hook for page refresh warning.
+  warnings("Are you sure you want to leave this page?");
 
   const handleScroll = () => {
     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
@@ -77,7 +80,7 @@ export const NewsCard = () => {
                 </div>
                 <div className="card-footer">
                   <small className="text-muted">
-                    Published:{" "}
+                    Published:
                     {new Date(article.publishedAt).toLocaleDateString()}
                   </small>
                 </div>
