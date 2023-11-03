@@ -3,23 +3,18 @@ import { NEWS_API_KEY } from "../../utils/constants";
 
 const PAGE_SIZE = 10;
 
-export const fetchNews = createAsyncThunk("news/fetchNews", async (data) => {
-  const { languageCode, page } = data;
-  const limit = page * PAGE_SIZE;
-  const skip = (page - 1) * PAGE_SIZE;
-  const apiUrl = `https://newsapi.org/v2/everything?q=bitcoin&apiKey=${NEWS_API_KEY}&pageSize=${limit}&language=${
-    languageCode || ""
-  }&skip=${skip}`;
-  const response = await fetch(apiUrl);
-  return response.json();
-});
-
-export const searchNewsByTerm = createAsyncThunk(
+export const searchNewsFetch = createAsyncThunk(
   "news/searchNewsByTerm",
-  async (searchTerm) => {
+  async (data) => {
+    const { searchTerm, languageCode, page } = data;
+    const limit = page * PAGE_SIZE;
+    const skip = (page - 1) * PAGE_SIZE;
+
     const apiUrl = `https://newsapi.org/v2/everything?q=${
       searchTerm || "bitcoin"
-    }&apiKey=${NEWS_API_KEY}&pageSize=${PAGE_SIZE}`;
+    }&apiKey=${NEWS_API_KEY}&pageSize=${limit}&language=${
+      languageCode || ""
+    }&skip=${skip}`;
     const response = await fetch(apiUrl);
     return response.json();
   }
@@ -45,25 +40,14 @@ const newsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchNews.pending, (state) => {
+      .addCase(searchNewsFetch.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(fetchNews.fulfilled, (state, action) => {
+      .addCase(searchNewsFetch.fulfilled, (state, action) => {
         state.isLoading = false;
         state.data = action.payload;
       })
-      .addCase(fetchNews.rejected, (state, action) => {
-        state.isError = true;
-        state.isLoading = false;
-      })
-      .addCase(searchNewsByTerm.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(searchNewsByTerm.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.data = action.payload;
-      })
-      .addCase(searchNewsByTerm.rejected, (state, action) => {
+      .addCase(searchNewsFetch.rejected, (state, action) => {
         state.isError = true;
         state.isLoading = false;
       });
