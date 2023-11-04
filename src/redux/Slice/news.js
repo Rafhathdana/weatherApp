@@ -7,14 +7,20 @@ export const searchNewsFetch = createAsyncThunk(
   "news/searchNewsByTerm",
   async (data) => {
     const { searchTerm, languageCode, page } = data;
-    const limit = page * PAGE_SIZE;
+    const limit = 10;
     const skip = (page - 1) * PAGE_SIZE;
 
-    const apiUrl = `https://newsapi.org/v2/everything?q=${
+    const apiUrl = `https://gnews.io/api/v4/search?q=${
       searchTerm || "bitcoin"
-    }&apiKey=${NEWS_API_KEY}&pageSize=${limit}&language=${
+    }&apikey=${NEWS_API_KEY}&max=${limit}&lang=${
       languageCode || ""
-    }&skip=${skip}`;
+    }&country=any&sortby=publishedAt`;
+
+    // const apiUrl = `https://newsapi.org/v2/everything?q=${
+    //   searchTerm || "bitcoin"
+    // }&apiKey=${NEWS_API_KEY}&pageSize=${limit}&language=${
+    //   languageCode || ""
+    // }&skip=${skip}`;
     const response = await fetch(apiUrl);
     return response.json();
   }

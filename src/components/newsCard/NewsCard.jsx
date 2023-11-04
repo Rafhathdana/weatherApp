@@ -99,7 +99,7 @@ export const NewsCard = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [lang, content]); // Include lang and content in the dependency array
+  }, [lang]); // Include lang and content in the dependency array
 
   const sortedArticles = state.news.data?.articles
     ? [...state.news.data.articles].sort((a, b) => {
@@ -171,9 +171,9 @@ export const NewsCard = () => {
                   className="card news-card h-100"
                   onClick={() => handleCardClick(article.url)}
                 >
-                  {article.urlToImage ? (
+                  {article.image ? (
                     <img
-                      src={article.urlToImage}
+                      src={article.image}
                       className="card-img-top"
                       alt={article.title}
                     />
@@ -185,7 +185,9 @@ export const NewsCard = () => {
                   <div className="card-body">
                     <h5 className="card-title">{article.title}</h5>
                     <p className="card-source">Source: {article.source.name}</p>
-                    <p className="card-author">By {article.author}</p>
+                    <p className="card-author">
+                      Desciption: {article.description}
+                    </p>
                   </div>
                   <div className="card-footer">
                     <small className="text-muted">
